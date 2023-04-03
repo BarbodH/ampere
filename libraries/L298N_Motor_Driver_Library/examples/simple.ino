@@ -1,9 +1,9 @@
 #include <L298N.h>
 
 // global constants
-const byte PIN_ENABLE = 9;
-const byte PIN_INPUT1 = 7;
-const byte PIN_INPUT2 = 8;
+const uint8_t PIN_ENABLE = 9;
+const uint8_t PIN_INPUT1 = 7;
+const uint8_t PIN_INPUT2 = 8;
 L298N driver(PIN_ENABLE, PIN_INPUT1, PIN_INPUT2);
 
 void setup()

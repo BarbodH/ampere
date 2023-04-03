@@ -11,21 +11,23 @@ class L298N
 {
 public:
   // constructor & destructor
-  L298N(short int pinEnable, short int pinInput1, short int pinInput2);
+  void init(uint8_t pinEnable, uint8_t pinInput1, uint8_t pinInput2);
+  L298N() = default;
+  L298N(uint8_t pinEnable, uint8_t pinInput1, uint8_t pinInput2);
   ~L298N();
   // accessor functions for instance variables
   bool isEngaged();
-  short int getSpeed();
+  uint8_t getSpeed();
   // functions for movement control
-  void run(bool direction, short int speed);
+  void run(bool direction, uint8_t speed);
   void stop();
 
 private:
   // pin numbers
-  short int pinEnable;
-  short int pinInput1;
-  short int pinInput2;
+  uint8_t pinEnable;
+  uint8_t pinInput1;
+  uint8_t pinInput2;
   // instance variables
   bool engaged;
-  short int speed;
+  uint8_t speed;
 };

@@ -39,35 +39,4 @@ void sumo() {
 
 //////////////////// Movement Control ////////////////////
 
-void attack() {
-  moveForward(ROTATE_MAX_SPEED);
-}
 
-void search() {
-  rotateClockwise(10);
-}
-
-void stop() {
-  motorL.stop();
-  motorR.stop();
-}
-
-void moveForward(byte speed) {
-  motorL.run(ROTATE_COUNTERCLOCKWISE, speed);
-  motorR.run(ROTATE_CLOCKWISE, speed);
-}
-
-void moveBackward(byte speed) {
-  motorL.run(ROTATE_CLOCKWISE, speed);
-  motorR.run(ROTATE_COUNTERCLOCKWISE, speed);
-}
-
-void rotateClockwise(byte speed) {
-  motorL.run(ROTATE_COUNTERCLOCKWISE, speed);
-  motorR.run(ROTATE_COUNTERCLOCKWISE, speed);
-}
-
-void rotateCounterclockwise(byte speed) {
-  motorL.run(ROTATE_CLOCKWISE, speed);
-  motorR.run(ROTATE_CLOCKWISE, speed);
-}

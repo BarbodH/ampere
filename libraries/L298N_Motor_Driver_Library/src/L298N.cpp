@@ -1,12 +1,12 @@
 #include "L298N.h"
 
 /**
- * Constructor for initializing instance variables and specifying pin modes
+ * Function allowing initialization after initial instantiation
  * @param pinEnable - enable pin
  * @param pinInput1 - input pin 1
  * @param pinInput2 - input pin 2
  */
-L298N::L298N(short int pinEnable, short int pinInput1, short int pinInput2)
+void L298N::init(uint8_t pinEnable, uint8_t pinInput1, uint8_t pinInput2)
 {
   // initialize instance variables
   this->pinEnable = pinEnable;
@@ -18,6 +18,17 @@ L298N::L298N(short int pinEnable, short int pinInput1, short int pinInput2)
   pinMode(this->pinEnable, OUTPUT);
   pinMode(this->pinInput1, OUTPUT);
   pinMode(this->pinInput2, OUTPUT);
+}
+
+/**
+ * Constructor for initializing instance variables and specifying pin modes
+ * @param pinEnable - enable pin
+ * @param pinInput1 - input pin 1
+ * @param pinInput2 - input pin 2
+ */
+L298N::L298N(uint8_t pinEnable, uint8_t pinInput1, uint8_t pinInput2)
+{
+  this->init(pinEnable, pinInput1, pinInput2);
 }
 
 /**
@@ -39,7 +50,7 @@ L298N::~L298N()
  *                  - value of false (ROTATE_COUNTERCLOCKWISE) indicates counterclockwise rotation
  * @param speed - speed of motor rotation
  */
-void L298N::run(bool direction, short int speed)
+void L298N::run(bool direction, uint8_t speed)
 {
   digitalWrite(this->pinInput1, direction ? HIGH : LOW);
   digitalWrite(this->pinInput2, direction ? LOW : HIGH);
@@ -71,9 +82,9 @@ bool L298N::isEngaged()
 
 /**
  * Accessor method for current speed of motor rotation
- * @return unsingned integer, range: [0, 255]
+ * @return 1-byte unsingned integer, range: [0, 255]
  */
-short int L298N::getSpeed()
+uint8_t L298N::getSpeed()
 {
   return this->speed;
 }

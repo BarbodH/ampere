@@ -1,5 +1,6 @@
-#include <L298N.h>
-#include <HCSR04.h>
+#include <L298N.h> // remove later
+
+#include "NavigationSystem.h"
 
 //////////////////// Declarations ////////////////////
 
@@ -19,15 +20,9 @@
 L298N motorL(PIN_ENABLE_A, PIN_INPUT_1, PIN_INPUT_2);
 L298N motorR(PIN_ENABLE_B, PIN_INPUT_3, PIN_INPUT_4);
 HCSR04 sensorUltrasonic(TRIG_PIN, ECHO_PIN);
-// QTRSensors sensorQTR;
-
-// qtr.setSensorPins((const uint8_t[]){A0, A1, A2, A3, A4, A5}, SensorCount);
 
 // initialization
 void setup() {
-  // QTRSensors.setTypeAnalog();
-  // QTRSensors.setSensorPins((const uint8_t[]){A0, A1, A2, A3, A4, A5}, SensorCount);
-  // QTRSensors.setEmitterPin(2);
   Serial.begin(9600);
 }
 
@@ -39,23 +34,7 @@ void loop() {
 }
 
 void sumo() {
-  while (true) {
-    rotateClockwise(10);
 
-    // retrieve sensor values
-    int distance = sensorUltrasonic.distance();
-    // unit16_t sensorValues[QTR_SENSOR_COUNT];
-
-    // opponent detected
-    if (distance < 20) {
-      attack();
-      // delay(100000); DEBUGGING
-    }
-
-    // edge of ring is reached
-
-    delay(100);
-  }
 }
 
 //////////////////// Movement Control ////////////////////

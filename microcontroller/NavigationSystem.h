@@ -18,7 +18,7 @@ public:
   NavigationSystem() = default;
   ~NavigationSystem();
   void setupSensorDist(uint8_t pinTrig, uint8_t pinEcho);
-  void setupSensorRefl(uint8_t pins[]);
+  void setupSensorRefl(const uint8_t * pins);
   // utility functions
   bool getStatusDist();
   bool * getStatusRefl();

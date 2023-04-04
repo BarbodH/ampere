@@ -13,7 +13,7 @@ void NavigationSystem::setupSensorDist(uint8_t pinTrig, uint8_t pinEcho)
   _distSensor.init(pinTrig, pinEcho, DIST_SENSOR_COUNT);
 }
 
-void NavigationSystem::setupSensorRefl(uint8_t pins[])
+void NavigationSystem::setupSensorRefl(const uint8_t * pins)
 {
   for (int i = 0; i < REFL_SENSOR_COUNT; i++)
     this->_reflSensors[i].init(pins[i]);

@@ -13,38 +13,51 @@ void MotionControlSystem::setupMotors(uint8_t pinEnableA, uint8_t pinEnableB,
   this->_motorR.init(pinEnableB, pinInput3, pinInput4);
 }
 
+void MotionControlSystem::moveCustom(bool directionL, bool directionR, uint8_t speedL, uint8_t speedR)
+{
+  this->_motorL.run(directionL, speedL);
+  this->_motorR.run(directionR, speedR);
+}
+
+void MotionControlSystem::moveForwardCustom(uint8_t speedL, uint8_t speedR)
+{
+  this->moveCustom(ROTATE_COUNTERCLOCKWISE, ROTATE_CLOCKWISE, speedL, speedR);
+}
+
+void MotionControlSystem::moveBackwardCustom(uint8_t speedL, uint8_t speedR)
+{
+  this->moveCustom(ROTATE_CLOCKWISE, ROTATE_COUNTERCLOCKWISE, speedL, speedR);
+}
+
 void MotionControlSystem::moveForward(uint8_t speed)
 {
-  this->_motorL.run(ROTATE_COUNTERCLOCKWISE, speed);
-  this->_motorR.run(ROTATE_CLOCKWISE, speed);
+  this->moveForwardCustom(speed, speed);
 }
 
 void MotionControlSystem::moveBackward(uint8_t speed)
 {
-  this->_motorL.run(ROTATE_CLOCKWISE, speed);
-  this->_motorR.run(ROTATE_COUNTERCLOCKWISE, speed);
+  this->moveBackwardCustom(speed, speed);
 }
 
 void MotionControlSystem::rotateClockwise(uint8_t speed)
 {
-  this->_motorL.run(ROTATE_COUNTERCLOCKWISE, speed);
-  this->_motorR.run(ROTATE_COUNTERCLOCKWISE, speed);
+  this->moveCustom(ROTATE_COUNTERCLOCKWISE, ROTATE_COUNTERCLOCKWISE, speed, speed);
 }
 
 void MotionControlSystem::rotateCounterclockwise(uint8_t speed)
 {
-  this->_motorL.run(ROTATE_CLOCKWISE, speed);
-  this->_motorR.run(ROTATE_CLOCKWISE, speed);
+  this->moveCustom(ROTATE_CLOCKWISE, ROTATE_CLOCKWISE, speed, speed);
 }
 
 void MotionControlSystem::dash()
 {
-  moveForward(ROTATE_MAX_SPEED);
+  this->moveForward(ROTATE_MAX_SPEED);
 }
 
-void MotionControlSystem::scan()
+void MotionControlSystem::scan(bool direction)
 {
-  rotateClockwise(SCAN_ROTATION_SPEED);
+  if (direction) this->rotateClockwise(SCAN_ROTATION_SPEED);
+  else this->rotateCounterclockwise(SCAN_ROTATION_SPEED);
 }
 
 void MotionControlSystem::stop() {

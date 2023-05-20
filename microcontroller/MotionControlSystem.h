@@ -26,9 +26,12 @@ public:
   void dash();
   void scan(bool direction);
   void stop();
+  void isTriggered();
 
 private:
   // DC motors
   L298N _motorL;
   L298N _motorR;
+  // instance variable for activity status
+  bool _triggered;
 };

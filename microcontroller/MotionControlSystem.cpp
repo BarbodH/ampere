@@ -4,6 +4,7 @@ MotionControlSystem::~MotionControlSystem()
 {
   this->_motorL.~L298N();
   this->_motorR.~L298N();
+  this->_triggered = false;
 }
 
 void MotionControlSystem::setupMotors(uint8_t pinEnableA, uint8_t pinEnableB,
@@ -52,15 +53,24 @@ void MotionControlSystem::rotateCounterclockwise(uint8_t speed)
 void MotionControlSystem::dash()
 {
   this->moveForward(ROTATE_MAX_SPEED);
+  this->_triggered = true;
 }
 
 void MotionControlSystem::scan(bool direction)
 {
   if (direction) this->rotateClockwise(SCAN_ROTATION_SPEED);
   else this->rotateCounterclockwise(SCAN_ROTATION_SPEED);
+  this->_triggered = false;
 }
 
-void MotionControlSystem::stop() {
+void MotionControlSystem::stop()
+{
   this->_motorL.stop();
   this->_motorR.stop();
+  this->_triggered = false;
+}
+
+bool MotionControlSystem::isTriggered()
+{
+  return this->_triggered;
 }

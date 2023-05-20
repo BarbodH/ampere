@@ -1,4 +1,4 @@
-#include <L298N.h> // remove later
+//////////////////// Control Systems ////////////////////
 
 #include "NavigationSystem.h"
 #include "MotionControlSystem.h"
@@ -38,6 +38,7 @@ void setup() {
 }
 
 //////////////////// Main Program ////////////////////
+
 void loop()
 {
   bool opponentDetected = navigationSystem.getStatusDist();
@@ -48,15 +49,23 @@ void loop()
   {
     if (!opponentDetected)
     {
-      motionControlSystem.stop();
-      delay(PING);
-      motionControlSystem.scan(ROTATE_CLOCKWISE);
+      if (motionControlSystem.isTriggered())
+      {
+        motionControlSystem.stop();
+        delay(PING * 0.8);
+        motionControlSystem.scan(ROTATE_CLOCKWISE);
+      }
+    }
+    else
+    {
+      motionControlSystem.dash();
+      delay(PING * 2);
     }
   }
   // left edge exceeding the ring
   else if (!edgeExceeded[0] && edgeExceeded[1])
   {
-    if (!opponentDetected)
+    if (!opponentDetected && motionControlSystem.isTriggered())
     {
       motionControlSystem.stop();
       delay(PING);
@@ -64,14 +73,14 @@ void loop()
     }
     else
     {
-      delay(PING / 2);
-      motionControlSystem.moveForwardCustom(ROTATE_MAX_SPEED, ROTATE_MAX_SPEED * 0.75);
+      motionControlSystem.moveForwardCustom(ROTATE_MAX_SPEED, ROTATE_MAX_SPEED * 0.9);
+      delay(PING * 1.75);
     }
   }
   // right edge exceeding the ring
   else if (edgeExceeded[0] && !edgeExceeded[1])
   {
-    if (!opponentDetected)
+    if (!opponentDetected && motionControlSystem.isTriggered())
     {
       motionControlSystem.stop();
       delay(PING);
@@ -79,8 +88,28 @@ void loop()
     }
     else
     {
-      delay(PING / 2);
-      motionControlSystem.moveForwardCustom(ROTATE_MAX_SPEED * 0.75, ROTATE_MAX_SPEED);
+      motionControlSystem.moveForwardCustom(ROTATE_MAX_SPEED * 0.9, ROTATE_MAX_SPEED);
+      delay(PING * 1.75);
+    }
+  }
+  // no edge exceeded; perfectly within the ring
+  else
+  {
+    if (opponentDetected)
+    {
+      // since dash modifies state, store it in temp for determining delay time
+      bool temp = motionControlSystem.isTriggered();
+      if (!temp) motionControlSystem.dash();
+      delay(temp ? PING * 1.8 : PING * 2);
+    }
+    else
+    {
+      if (motionControlSystem.isTriggered())
+      {
+        motionControlSystem.stop();
+        delay(PING);
+        motionControlSystem.scan(ROTATE_COUNTERCLOCKWISE);
+      }
     }
   }
 }

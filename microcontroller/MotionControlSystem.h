@@ -26,7 +26,7 @@ public:
   void dash();
   void scan(bool direction);
   void stop();
-  void isTriggered();
+  bool isTriggered();
 
 private:
   // DC motors
